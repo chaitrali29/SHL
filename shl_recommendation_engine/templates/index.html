@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SHL Assessment Recommender</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .shl-green {
+        background-color: #66a80f;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-gray-900">
+    <!-- Top info bar -->
+    <div
+      style="background-color: #6d6c6e"
+      class="text-white text-sm py-4 text-right px-6"
+    ></div>
+
+    <!-- SHL-style Navbar -->
+    <nav class="bg-white shadow-sm">
+      <div
+        class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4"
+      >
+        <link
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap"
+          rel="stylesheet"
+        />
+
+        <div class="flex items-center space-x-6">
+          <div
+            class="text-[40px] font-semibold tracking-wide text-[#333333]"
+            style="font-family: 'Nunito', sans-serif"
+          >
+            S<span>H</span><span>L</span><span class="text-[#8DC63F]">.</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto mt-12 px-6">
+      <h1 class="text-3xl font-bold mb-4 text-gray-900">
+        SHL Assessment Recommender
+      </h1>
+      <p class="text-gray-600 mb-8">
+        Find the best assessments based on your needs
+      </p>
+
+      <form method="POST" action="/" class="space-y-6">
+        <label class="block">
+          <span class="text-lg font-semibold text-gray-800"
+            >Enter your hiring prompt or candidate role:</span
+          >
+          <textarea
+            name="prompt"
+            rows="4"
+            placeholder="e.g. I need assessments for a software developer with strong logic"
+            class="mt-2 w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-green-600 placeholder-gray-400"
+            required
+          ></textarea>
+        </label>
+
+        <div class="flex justify-end">
+          <button
+            type="submit"
+            class="shl-green hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold shadow"
+          >
+            Recommend
+          </button>
+        </div>
+      </form>
+
+      {% if results is not none %}
+      <div class="mt-12">
+        <h2 class="text-2xl font-semibold mb-4 text-green-700">
+          Top Recommended Assessments
+        </h2>
+        <div class="overflow-x-auto">
+          <table
+            class="w-full bg-white border border-gray-200 rounded-md shadow"
+          >
+            <thead class="bg-gray-100 text-left">
+              <tr>
+                <th class="p-3 border-b">Name</th>
+                <th class="p-3 border-b">Type</th>
+                <th class="p-3 border-b">URL</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for index, row in results.iterrows() %}
+              <tr class="hover:bg-gray-50">
+                <td class="p-3 border-b">{{ row['Name'] }}</td>
+                <td class="p-3 border-b">{{ row['Type'] }}</td>
+                <td class="p-3 border-b">
+                  <a
+                    href="{{ row['URL'] }}"
+                    class="text-green-600 hover:underline"
+                    target="_blank"
+                    >{{ row['URL'] }}</a
+                  >
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+    </main>
+
+    <footer class="text-center text-gray-500 text-sm mt-20 py-8 border-t">
+      &copy; {{ 2025 }} SHL Recommendation Engine
+    </footer>
+  </body>
+</html>
