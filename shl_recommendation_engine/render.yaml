@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: shl-assessment-recommender
+    env: python
+    region: oregon # or choose any preferred Render region
+    buildCommand: ""
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
